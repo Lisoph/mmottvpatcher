@@ -125,13 +125,10 @@ namespace MmoTtvPatcher
             if (!HashFile(downloadPath).SequenceEqual(HashFile(asarPath)))
             {
                 string desc = $"Version {release.TagName} is available and ready for installation.";
-                desc += "\nUpdate will be applied in 5 minutes.";
+                desc += "\nUpdate will be applied in 30 seconds.";
                 notify.ShowBalloonTip(5000, "mmottv - New Version", desc, ToolTipIcon.Warning);
 
-                if (SleepChecked(1000 * 60 * 4, 500)) return;
-                notify.ShowBalloonTip(5000, "mmottv - New Version", "Update will be applied in 1 minute.", ToolTipIcon.Warning);
-
-                if (SleepChecked(1000 * 60 * 1, 500)) return;
+                if (SleepChecked(1000 * 30, 500)) return;
                 notify.ShowBalloonTip(5000, "mmottv - New Version", "Applying update...", ToolTipIcon.Warning);
 
                 QuitMattermost();
@@ -144,7 +141,7 @@ namespace MmoTtvPatcher
 
                 StartMattermost();
 
-                notify.ShowBalloonTip(5000, "mmottv - New Version", $"Updated mmottv from {lastTagName} to {release.TagName}.", ToolTipIcon.Info);
+                notify.ShowBalloonTip(5000, "mmottv - New Version", $"Updated mmottv from {(string.IsNullOrWhiteSpace(lastTagName) ? "<unknown>" : lastTagName)} to {release.TagName}.", ToolTipIcon.Info);
 
                 lastTagName = release.TagName;
             }
